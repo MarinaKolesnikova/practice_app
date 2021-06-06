@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:pract_app/background/background.dart';
+import 'package:pract_app/pages/auxilary/hasTokenFunction.dart';
+import 'package:pract_app/pages/auxilary/menuBar.dart';
+import 'package:pract_app/pages/catalog/productList.dart';
+
+class Catalog extends StatefulWidget{
+  @override
+  _CatalogPageState createState() => _CatalogPageState();
+}
+
+class _CatalogPageState extends State<Catalog> {
+  @override
+  void initState() {
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    double back_pressed;
+    final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+    return  FutureBuilder(
+        future:isAuthorized(),
+        builder:(BuildContext context, AsyncSnapshot<bool> snapshot)  {
+        if(snapshot.hasData){
+          print(snapshot.hasData);
+          bool? isAuth=snapshot.data;
+          return Scaffold(
+            key:_scaffoldKey,
+            appBar: AppBar(
+              elevation: 0,
+              brightness: Brightness.dark,
+              centerTitle: true,
+              automaticallyImplyLeading: true,
+              actions: isAuth==false?<Widget>[
+                IconButton(onPressed: (){
+                  setState(() {});
+                  },
+                    icon: Icon(Icons.refresh_rounded)
+                ),]
+                  :
+              <Widget>[
+                IconButton(onPressed: (){ //refresh data
+                  setState(() {});
+                  },
+                    icon: Icon(Icons.refresh_rounded)),
+                IconButton(icon: Icon(Icons.menu),
+                  onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+                ),
+              ],
+              leading:IconButton(icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                if(Navigator.canPop(context)){
+                  Navigator.pop(context);
+                }
+                else{
+                  print('here');
+                  SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+                }
+              }),
+              backgroundColor: Colors.black.withOpacity(0.9),),
+            endDrawer:Drawer(
+              child: MenuBar(),
+            ),
+            body: Background (child: ProductList(isAuth: isAuth==true? true:false,)
+            ),
+          );
+        }
+        else{
+          return Center(child:CircularProgressIndicator()); }
+        });
+  }
+}
