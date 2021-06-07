@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pract_app/background/background.dart';
+import 'package:pract_app/pages/auxilary/toastMessage.dart';
 import 'package:pract_app/services/User_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
@@ -162,13 +163,9 @@ class _ProfilePageState extends State<Profile>{
                                             final String surname =_surnameController.text;
                                             SharedPreferences preferences = await SharedPreferences.getInstance();  // data saving
                                             preferences.setString('filepath', photoPath );
-                                            print(photoPath);
                                             preferences.setString('name', name );
                                             preferences.setString('surname', surname );
-                                            Fluttertoast.showToast(
-                                                msg: "Saved!",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM);
+                                            returnToast("Saved!","BOTTOM");
                                             setState(() {
                                               photoPath=photoPath;
                                             });

@@ -5,19 +5,22 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pract_app/pages/auxilary/toastMessage.dart';
 import 'package:pract_app/pages/auxilary/menuBar.dart';
 import 'package:pract_app/pages/detailPage/voteItem.dart';
 import 'package:pract_app/services/Api_product.dart';
 import 'package:pract_app/services/Api_vote.dart';
-import 'package:http/http.dart' as http;
 import 'package:pract_app/services/database_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../auxilary/hasTokenFunction.dart';
+import 'package:http/http.dart' as http;
 
 double rate=0.0;
 
 Object redrawObject= Object();// key for listview update
+final TextEditingController commentController = TextEditingController();
+//Get list of comments
 Future<List <ApiVote>> GetComments(int id) async{
   List<ApiVote> comments;
   final Uri apiUrl=Uri.parse("http://smktesting.herokuapp.com/api/reviews/$id");
@@ -34,8 +37,6 @@ Future<List <ApiVote>> GetComments(int id) async{
     return comments= <ApiVote>[] as List<ApiVote>;
   }
 }
-
-final TextEditingController commentController = TextEditingController();
 
 class Details extends StatefulWidget{
   @override
@@ -60,8 +61,7 @@ class _DetailsPageState extends State<Details>{
     final ApiProduct content = widget.content;
     final bool isAuth = widget.isAuth;
 
-    final _isKeyboard=MediaQuery.of(context).viewInsets.bottom!=0; // keyboard visibility check
-
+    final _isKeyboard=MediaQuery.of(context).viewInsets.bottom!=0; // keyboard visibility check\
     Size size = MediaQuery.of(context).size;
 
     //set comment

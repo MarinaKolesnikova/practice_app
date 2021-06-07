@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pract_app/pages/auxilary/toastMessage.dart';
 import 'package:pract_app/services/Api_product.dart';
 import 'package:http/http.dart' as http;
 import 'package:pract_app/services/database_provider.dart';
@@ -136,31 +137,21 @@ class _ProductListState extends State<ProductList> {
                         );
                       }
                       else{
-                        Fluttertoast.showToast(
-                            msg: "No internet connection!",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER);
+                      returnToast("No internet connection!","CENTER");
                         return Center(child: CircularProgressIndicator());
                       }
                    }
                    );
                 }
                     else {
-                      Fluttertoast.showToast(
-                      msg: "No internet connection!",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER);
+                      returnToast("No internet connection!","CENTER");
                       return Center(child: CircularProgressIndicator());}
                   }
                 }
             else{
-              Fluttertoast.showToast(
-                  msg: "Loading...",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER);
+              returnToast("Loading...","CENTER");
               return Center(child: CircularProgressIndicator());}
       }
-
                       )
           )
         ]

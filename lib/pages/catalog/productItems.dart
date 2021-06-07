@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pract_app/pages/auxilary/toastMessage.dart';
 import 'package:pract_app/services/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -20,9 +20,6 @@ class productItem extends StatefulWidget{
       ):super(key: key);
   _ProductItemState createState() => _ProductItemState();
 }
-
-
-
 
 class _ProductItemState extends State<productItem>{
   @override
@@ -47,8 +44,9 @@ class _ProductItemState extends State<productItem>{
                     builder: (context) => Details(
                       content:content,
                       isAuth: isAut==true?true: false,
-                      refresh:  widget.parentAction,)
-               ));
+                      refresh:  widget.parentAction,
+                    )),
+                );
                 print(connection.toString()+' con');},
                 child:
                 Column(
@@ -67,8 +65,8 @@ class _ProductItemState extends State<productItem>{
                                     blurRadius: 8.0,
                                     spreadRadius: 0.5,
                                     offset: Offset(0.1, 0.5)
-
-                                )],
+                                ),
+                              ],
                             ),
                            child:Stack(
                               children: <Widget>[
@@ -129,12 +127,8 @@ class _ProductItemState extends State<productItem>{
                                               }
                                               catch (E) {
                                                 print(E);
-                                                Fluttertoast.showToast(
-                                                msg: "Error",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER);}
+                                                returnToast("Error!","CENTER");}
                                               }
-
                                             }
                                         )
                                         : IconButton(
@@ -152,10 +146,11 @@ class _ProductItemState extends State<productItem>{
                                                 print (E.toString());
                                               }}
                                         )
-                           ),)]
+                                    ),
+                                    )]
                            ),
-                      ),
-                          ),
+                         ),
+                    ),
 
                             Center(child:
                                   Container(
@@ -171,9 +166,9 @@ class _ProductItemState extends State<productItem>{
                                         textAlign: TextAlign.center,
                                     style: TextStyle(color: Colors.black87,
                                         fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                               ),
+                                      ),
+                                  ),
+                            ),
                   ],
                 )
             );
