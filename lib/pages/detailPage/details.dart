@@ -86,7 +86,7 @@ class _DetailsPageState extends State<Details>{
           SystemChannels.textInput.invokeMethod('TextInput.hide'); //for keyboard dismissing
           setState(() {
             commentController.text="";
-            rate=0.0;
+            rate=1.0;
           });
         }
       }
