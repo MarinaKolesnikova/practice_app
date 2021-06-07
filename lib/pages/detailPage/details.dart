@@ -16,7 +16,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../auxilary/hasTokenFunction.dart';
 import 'package:http/http.dart' as http;
 
-double rate=0.0;
+double rate=1.0;
 
 Object redrawObject= Object();// key for listview update
 final TextEditingController commentController = TextEditingController();
