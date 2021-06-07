@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pract_app/services/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -19,13 +21,16 @@ class productItem extends StatefulWidget{
   _ProductItemState createState() => _ProductItemState();
 }
 
+
+
+
 class _ProductItemState extends State<productItem>{
   @override
   Widget build(BuildContext context) {
     final bool isAut = widget.isAut;
     final ApiProduct content= widget.content;
     final bool connection = widget.connection;
-    Size size = MediaQuery.of(context).size;
+
   return
     FutureBuilder(
         future:DatabaseProvider.db.isExist(content.id),
@@ -73,7 +78,7 @@ class _ProductItemState extends State<productItem>{
                                         alignment:Alignment.center,
                                         child:Hero(
                                           tag: "${content.id}",
-                                          child:  fromSavedData==true? Image.file(File(savedProduct.img)) :
+                                          child:  fromSavedData==true&&connection==false? Image.file(File(savedProduct.img)) :
                                                Image.network('http://smktesting.herokuapp.com/static/'+content.img),
                                         ))),
                                     if(isAut==true) Align(
@@ -88,29 +93,49 @@ class _ProductItemState extends State<productItem>{
                                       border: Border.all(),
                                       shape: BoxShape.circle,),
                                         child:
-                                        savedProduct!.id==0? IconButton(
+                                        savedProduct.id==0? IconButton(
                                             icon: Icon(Icons.save_alt_rounded, color:Colors.white),
-                                            onPressed: ()async{
+                                            onPressed: ()async {
+                                              if(connection){
                                               try {
-                                            var response = await Dio().get(
-                                            "http://smktesting.herokuapp.com/static/"+content.img,
-                                           options: Options(responseType: ResponseType.bytes));
-                                           final result = await ImageGallerySaver.saveImage(
-                                           Uint8List.fromList(response.data),
-                                             quality: 100,
-                                              name: content.img);
-                                              print(result['filePath'].toString().replaceFirst('file://',''));
-                                              if(result['isSuccess']==true){
-                                                ApiProduct product = new ApiProduct(
-                                                  id: content.id,
-                                                  title: content.title,
-                                                  text: content.text,
-                                                  img: result['filePath'].toString().replaceFirst('file://','') );
-                                              DatabaseProvider.db.insert(product);
-                                              setState(() {
-                                              });
-                                              }}
-                                            catch(E){}}
+                                                var status = await Permission.storage.status;
+                                                print(status);
+
+                                                if (await Permission.storage.request().isGranted) {
+                                                  var response;
+                                                  response= await Dio().get(
+                                                      "http://smktesting.herokuapp.com/static/"+content.img,
+                                                      options: Options(responseType: ResponseType.bytes));
+                                                  final result = await ImageGallerySaver.saveImage(
+                                                      Uint8List.fromList(response.data),
+                                                      quality: 100,
+                                                      name: content.img);
+                                                  print(result);
+                                                  print(result['filePath'].toString().replaceFirst('file://',''));
+                                                  if(result['isSuccess']==true){
+                                                    ApiProduct product = new ApiProduct(
+                                                        id: content.id,
+                                                        title: content.title,
+                                                        text: content.text,
+                                                        img: result['filePath'].toString().replaceFirst('file://','') );
+                                                    DatabaseProvider.db.insert(product);
+                                                  }
+                                                  setState(() {
+                                                  });
+                                                }
+                                                else{
+                                                  print('permission denied');
+                                                }
+                                              }
+                                              catch (E) {
+                                                print(E);
+                                                Fluttertoast.showToast(
+                                                msg: "Error",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER);}
+                                              }
+
+                                            }
                                         )
                                         : IconButton(
                                             icon: Icon(Icons.delete_outline, color:Colors.white),

@@ -144,13 +144,6 @@ class _DetailsPageState extends State<Details>{
                                   builder:(BuildContext context, AsyncSnapshot<ApiProduct> snapshot) {
                                     if(snapshot.hasData) {
                                       ApiProduct? savedProduct = snapshot.data;
-                                      bool fromSavedData = false;
-                                      if (savedProduct!.id == 0) {
-                                        fromSavedData = false;
-                                      }
-                                      else {
-                                        fromSavedData = true;
-                                      }
                                      if(!_isKeyboard){
                                        return
                                        Container(
@@ -168,13 +161,17 @@ class _DetailsPageState extends State<Details>{
                                          ]),
                                           child: Conditioned(
                                             cases: [
-                                              Case(connection==true, builder: () =>
+                                              Case(connection==true && savedProduct!.img!=content.img, builder: () =>
                                                   Image(
                                                 image: NetworkImage('http://smktesting.herokuapp.com/static/'+content.img),
                                                 fit: BoxFit.fitWidth, )),
-                                              Case(connection==false && savedProduct.id!=0, builder: () =>
+                                              Case(connection==true && savedProduct!.img==content.img, builder: () =>
                                                   Image(
-                                                    image:FileImage(File(savedProduct.img)),
+                                                    image:FileImage(File(savedProduct!.img)),
+                                                    fit: BoxFit.fitWidth, )),
+                                              Case(connection==false &&savedProduct!.id!=0, builder: () =>
+                                                  Image(
+                                                    image:FileImage(File(savedProduct!.img)),
                                                     fit: BoxFit.fitWidth,)),
                                             ],
                                             defaultBuilder: () => Image(image: AssetImage("assets/images/noImage.jpg")),
@@ -315,7 +312,7 @@ class _DetailsPageState extends State<Details>{
                                                             key:ValueKey<Object>(redrawObject),
                                                             itemCount:  apVote!.length,
                                                             shrinkWrap: true,
-                                                            itemBuilder: (context, index) =>VoteItem(content: apVote![index]))
+                                                            itemBuilder: (context, index) =>VoteItem(content: apVote[index]))
                                                     ));
                                             }
                                             else {

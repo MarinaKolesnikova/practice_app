@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     WidgetsFlutterBinding.ensureInitialized();
     String value='';
     SharedPreferences.getInstance().then((instance){
-      value = instance.getString('token');
+      value = instance.getString('token')!;
     });
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
