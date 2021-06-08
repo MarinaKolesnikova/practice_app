@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
-import 'package:pract_app/pages/auxilary/hasTokenFunction.dart';
-import 'package:pract_app/pages/auxilary/menuBar.dart';
+import 'package:pract_app/pages/auxiliary/hasTokenFunction.dart';
+import 'package:pract_app/pages/auxiliary/menuBar.dart';
 import 'package:pract_app/pages/catalog/productList.dart';
 
 class Catalog extends StatefulWidget{

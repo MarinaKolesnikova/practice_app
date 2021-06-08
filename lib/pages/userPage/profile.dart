@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pract_app/background/background.dart';
-import 'package:pract_app/pages/auxilary/toastMessage.dart';
+import 'package:pract_app/pages/auxiliary/toastMessage.dart';
 import 'package:pract_app/services/User_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';

@@ -5,15 +5,15 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pract_app/pages/auxilary/toastMessage.dart';
-import 'package:pract_app/pages/auxilary/menuBar.dart';
+import 'package:pract_app/pages/auxiliary/toastMessage.dart';
+import 'package:pract_app/pages/auxiliary/menuBar.dart';
 import 'package:pract_app/pages/detailPage/voteItem.dart';
 import 'package:pract_app/services/Api_product.dart';
 import 'package:pract_app/services/Api_vote.dart';
 import 'package:pract_app/services/database_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../auxilary/hasTokenFunction.dart';
+import '../auxiliary/hasTokenFunction.dart';
 import 'package:http/http.dart' as http;
 
 double rate=1.0;
