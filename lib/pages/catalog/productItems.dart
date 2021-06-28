@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pract_app/pages/auxiliary/toastMessage.dart';
+import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
 import 'package:pract_app/services/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -63,8 +63,8 @@ class _ProductItemState extends State<productItem>{
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.7),
                                     blurRadius: 8.0,
-                                    spreadRadius: 0.5,
-                                    offset: Offset(0.1, 0.5)
+                                    spreadRadius: 5.5,
+                                    offset: Offset(10.1, 18.5)
                                 ),
                               ],
                             ),

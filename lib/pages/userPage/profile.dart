@@ -2,57 +2,49 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
-import 'package:pract_app/pages/auxiliary/toastMessage.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
+import 'package:pract_app/pages/userPage/Functions/profileFunctions.dart';
 import 'package:pract_app/services/User_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 
-Future<UserData> isCreated() async {
-  final prefs = await SharedPreferences.getInstance();
-  String name = prefs.getString('name')??'';
-  String surname = prefs.getString('surname')??'';
-  String filepath = prefs.getString('filepath')??'';
-  UserData usData = UserData(name: name, surname: surname, photoPath: filepath);
-  return usData;
-}
-
-TextEditingController _nameController = TextEditingController();
-TextEditingController _surnameController = TextEditingController();
-
 class Profile extends StatefulWidget{
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _surnameController = TextEditingController();
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
+
 class _ProfilePageState extends State<Profile>{
   ImagePicker _imagePicker = ImagePicker();
   String photoPath="";
+
   @override
   void dispose() {
-    _nameController.text='';
-    _surnameController.text='';
+    widget._nameController.text='';
+    widget._surnameController.text='';
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     final _isKeyboard=MediaQuery.of(context).viewInsets.bottom!=0;
     return
       Scaffold(
         body:
+            Unfocus( child:
             Background(child:
             FutureBuilder(
                 future:isCreated(),
                 builder:(BuildContext context, AsyncSnapshot<UserData> snapshot) {
                   if(snapshot.hasData){
-                    print(photoPath);
                     UserData? usData=snapshot.data;
                     if(photoPath.isEmpty)
                       photoPath=usData!.photoPath;
-                    if(_nameController.text.isEmpty)
-                      _nameController.text=usData!.name;
-                    if(_surnameController.text.isEmpty)
-                      _surnameController.text=usData!.surname;
+                    if(widget._nameController.text.isEmpty)
+                      widget._nameController.text=usData!.name;
+                    if(widget._surnameController.text.isEmpty)
+                      widget._surnameController.text=usData!.surname;
                     return
                       Container (
                           margin: EdgeInsets.symmetric(horizontal: 15, vertical: size.height/20),
@@ -63,7 +55,6 @@ class _ProfilePageState extends State<Profile>{
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children:<Widget>[
-
                               Align(
                                   alignment: Alignment.topRight,
                                   child:
@@ -80,8 +71,9 @@ class _ProfilePageState extends State<Profile>{
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                               },
-                                          ))
-                                  )
+                                          ),
+                                      ),
+                                  ),
                               ),
                               if(!_isKeyboard)
                                 Container(
@@ -98,8 +90,7 @@ class _ProfilePageState extends State<Profile>{
                                 GestureDetector( //for adding new img
                                   onTap: () async {
                                     final pickedFile = await _imagePicker.getImage(source: ImageSource.gallery);
-                                    print(pickedFile!.path);
-                                    if(pickedFile.path.isNotEmpty){
+                                    if(pickedFile!.path.isNotEmpty){
                                       setState(() {
                                         photoPath=pickedFile.path;
                                       });
@@ -116,8 +107,9 @@ class _ProfilePageState extends State<Profile>{
                                               fit: BoxFit.cover,
                                               image:photoPath.isNotEmpty? new  FileImage(File(photoPath))  :   //fromFile or standard
                                               new AssetImage("assets/images/user.png") as ImageProvider
-                                               )
-                                              )),
+                                               ),
+                                              ),
+                                  ),
                                 ),
                               Container(
                                   margin: EdgeInsets.only(bottom: 10),
@@ -125,14 +117,15 @@ class _ProfilePageState extends State<Profile>{
                                   SizedBox(
                                       width:size.width*0.9,
                                       child: TextField(
-                                        controller: _nameController,
+                                        controller: widget._nameController,
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled:true,
                                             border: OutlineInputBorder(),
                                             labelText: 'Name',
                                           ),
-                                      )),
+                                      ),
+                                  ),
                               ),
                               Container(
                                   margin: EdgeInsets.only(bottom: 10),
@@ -140,7 +133,7 @@ class _ProfilePageState extends State<Profile>{
                                   SizedBox(
                                       width:size.width*0.9,
                                       child: TextField(
-                                        controller: _surnameController,
+                                        controller: widget._surnameController,
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled:true,
@@ -148,7 +141,8 @@ class _ProfilePageState extends State<Profile>{
                                             labelText: 'Surname',
                                           ),
                                       ),
-                                  ),),
+                                  ),
+                              ),
                               Container(
                                   alignment: Alignment.bottomCenter,
                                   child: SizedBox(
@@ -158,30 +152,27 @@ class _ProfilePageState extends State<Profile>{
                                           style: ButtonStyle(
                                             backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent),),
                                           onPressed: () async{
-                                            final String name =_nameController.text;
-                                            final String surname =_surnameController.text;
-                                            SharedPreferences preferences = await SharedPreferences.getInstance();  // data saving
-                                            preferences.setString('filepath', photoPath );
-                                            preferences.setString('name', name );
-                                            preferences.setString('surname', surname );
-                                            returnToast("Saved!","BOTTOM");
+                                            final String name =widget._nameController.text;
+                                            final String surname =widget._surnameController.text;
+                                            setProfileData(photoPath, name, surname);
                                             setState(() {
                                               photoPath=photoPath;
                                             });
                                             SystemChannels.textInput.invokeMethod('TextInput.hide');},
-
                                           child: Text("Confirm", style: TextStyle(color:Colors.black87,fontSize:18),)
-                                )
-                      )
-                ),
-           ],
-        ));
-           }
-           else{
-            return Center(child:CircularProgressIndicator());
-           }}
-      )
-      ));
+                                      ),
+                                  ),
+                              ),
+                            ],
+                          ),
+                      );
+                  }
+                  else{
+                    return Center(child:CircularProgressIndicator());
+                  }}
+                  ),
+            ),
+            ),
+      );
   }
-
 }

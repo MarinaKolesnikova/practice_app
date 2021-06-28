@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pract_app/pages/auxiliary/Functions/personalDataDeleting.dart';
 import 'package:pract_app/pages/firstpage.dart';
 import 'package:pract_app/pages/userPage/profile.dart';
-import 'package:pract_app/services/database_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-//deleting personal data and token in case of exit from acc
-void deleteData() async {
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.remove('token');
-  await preferences.remove('name');
-  await preferences.remove('surname');
-  await preferences.remove('filepath');
-  await preferences.clear();
-  //DatabaseProvider.db.destroyDB();
-
-}
 
 class MenuBar extends StatelessWidget {
   @override

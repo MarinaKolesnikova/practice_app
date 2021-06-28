@@ -1,32 +1,14 @@
-import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pract_app/pages/auxiliary/toastMessage.dart';
+import 'package:pract_app/pages/catalog/Functions/getProducts.dart';
+import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
 import 'package:pract_app/services/Api_product.dart';
-import 'package:http/http.dart' as http;
 import 'package:pract_app/services/database_provider.dart';
 import 'productItems.dart';
 
-Future<List <ApiProduct>> GetProducts() async{
-  Future<List<ApiProduct>> products;
-  final Uri apiUrl=Uri.parse("http://smktesting.herokuapp.com/api/products/");
-  var response = await http.get(apiUrl);
-
-  if(response.statusCode==200){
-    final String data =response.body.toString();
-    var prodObjsJson = jsonDecode(data) as List;
-    var prodObjs = prodObjsJson.map((prodJson) => ApiProduct.fromJson(prodJson)).toList() ;
-    return prodObjs;
-  }
-  else{
-    return products= <ApiProduct>[] as Future<List<ApiProduct>>;
-  }
-}
-
-
 class ProductList extends StatefulWidget{
   final bool isAuth ;
+
   @override
   final String title = "product list";
   const ProductList({ Key? key, required this.isAuth}):super(key: key);
@@ -113,7 +95,6 @@ class _ProductListState extends State<ProductList> {
                          Container (
                           width: size.width,
                           padding: EdgeInsets.only(top:20),
-
                           child:
                           Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -132,8 +113,9 @@ class _ProductListState extends State<ProductList> {
                                           isAut: _isAuth,
                                           connection:false,
                                           parentAction: callBack
-                                      )
-                              )),
+                                      ),
+                              ),
+                          ),
                         );
                       }
                       else{
@@ -152,8 +134,8 @@ class _ProductListState extends State<ProductList> {
               returnToast("Loading...","CENTER");
               return Center(child: CircularProgressIndicator());}
       }
-                      )
-          )
+                      ),
+          ),
         ]
       );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
-import 'package:pract_app/pages/auxiliary/hasTokenFunction.dart';
-import 'package:pract_app/pages/auxiliary/menuBar.dart';
+import 'package:pract_app/pages/auxiliary/Functions/hasTokenFunction.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
 import 'package:pract_app/pages/catalog/productList.dart';
 
 class Catalog extends StatefulWidget{
@@ -19,6 +19,7 @@ class _CatalogPageState extends State<Catalog> {
   Widget build(BuildContext context) {
     double back_pressed;
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
     return  FutureBuilder(
         future:isAuthorized(),
         builder:(BuildContext context, AsyncSnapshot<bool> snapshot)  {
@@ -31,7 +32,7 @@ class _CatalogPageState extends State<Catalog> {
               elevation: 0,
               brightness: Brightness.dark,
               centerTitle: true,
-              automaticallyImplyLeading: true,
+              automaticallyImplyLeading: isAuth==false?true:false,
               actions: isAuth==false?<Widget>[
                 IconButton(onPressed: (){
                   setState(() {});
@@ -48,16 +49,12 @@ class _CatalogPageState extends State<Catalog> {
                   onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
                 ),
               ],
-              leading:IconButton(icon: Icon(Icons.arrow_back_ios),
+              leading:isAuth==false?IconButton(icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
                 if(Navigator.canPop(context)){
                   Navigator.pop(context);
                 }
-                else{
-                  print('here');
-                  SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
-                }
-              }),
+              }):Container(),
               backgroundColor: Colors.black.withOpacity(0.9),),
             endDrawer:Drawer(
               child: MenuBar(),

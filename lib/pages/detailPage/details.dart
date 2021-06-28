@@ -5,38 +5,16 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pract_app/pages/auxiliary/toastMessage.dart';
-import 'package:pract_app/pages/auxiliary/menuBar.dart';
+import 'package:pract_app/pages/detailPage/Functions/commentInterface.dart';
+import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/detailPage/voteItem.dart';
 import 'package:pract_app/services/Api_product.dart';
 import 'package:pract_app/services/Api_vote.dart';
 import 'package:pract_app/services/database_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../auxiliary/hasTokenFunction.dart';
-import 'package:http/http.dart' as http;
-
-double rate=1.0;
-
-Object redrawObject= Object();// key for listview update
-final TextEditingController commentController = TextEditingController();
-//Get list of comments
-Future<List <ApiVote>> GetComments(int id) async{
-  List<ApiVote> comments;
-  final Uri apiUrl=Uri.parse("http://smktesting.herokuapp.com/api/reviews/$id");
-  var response = await http.get(apiUrl);
-
-  if(response.statusCode==200){
-    final String data =response.body.toString();
-    var voteObjsJson = jsonDecode(data) as List;
-    comments = voteObjsJson.map((prodJson) => ApiVote.fromJson(prodJson)).toList();
-    comments.sort((a,b)=>b.created_at.compareTo(a.created_at));
-    return comments;
-  }
-  else{
-    return comments= <ApiVote>[] as List<ApiVote>;
-  }
-}
+import '../auxiliary/Functions/hasTokenFunction.dart';
 
 class Details extends StatefulWidget{
   @override
@@ -51,46 +29,28 @@ class Details extends StatefulWidget{
 
 class _DetailsPageState extends State<Details>{
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  double rate=1.0;
+  Object redrawObject= Object();// key for listview update
+  final TextEditingController commentController = TextEditingController();
+
   @override
   void initState(){
     super .initState();
   }
   @override
   Widget build(BuildContext context) {
-
+    void newState(){
+      setState(() {
+        commentController.text="";
+        rate=1.0;
+      });}
     final ApiProduct content = widget.content;
     final bool isAuth = widget.isAuth;
 
     final _isKeyboard=MediaQuery.of(context).viewInsets.bottom!=0; // keyboard visibility check\
     Size size = MediaQuery.of(context).size;
 
-    //set comment
-    void createComment(int id, String comment, int rating) async {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token') ?? 0;
-      final response= await http.post(
-        Uri.parse('http://smktesting.herokuapp.com/api/reviews/$id'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization':'Token '+token.toString()
-        },
-        body: jsonEncode(<String, String>{
-          "rate": rating.toString(),
-          "text": comment
-        }),
-      );
-      if(response.statusCode==200){
-        var JsonData=json.decode(response.body);
 
-        if (JsonData['success']==true){
-          SystemChannels.textInput.invokeMethod('TextInput.hide'); //for keyboard dismissing
-          setState(() {
-            commentController.text="";
-            rate=1.0;
-          });
-        }
-      }
-    }
          return  Scaffold(
             key:_scaffoldKey,
             appBar: AppBar(
@@ -119,10 +79,11 @@ class _DetailsPageState extends State<Details>{
             endDrawer:
             Drawer(
              child:MenuBar()),
-            body:
-            FutureBuilder(
-             future:Connectivity().checkConnectivity(), // check internet connection
-              builder:(BuildContext context, AsyncSnapshot snapshot) {
+            body: Unfocus(
+                child:
+                FutureBuilder(
+                 future:Connectivity().checkConnectivity(), // check internet connection
+                 builder:(BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   var result = snapshot.data;
                   final bool connection;
@@ -273,16 +234,16 @@ class _DetailsPageState extends State<Details>{
                                                                       MaterialStateProperty.all<Color>(Colors.greenAccent),),
                                                                     onPressed:(){                                       //send comment
                                                                        final String comment =commentController.text;
-                                                                       var isReady=createComment(content.id,comment, rate.toInt());
+                                                                       var isReady=createComment(content.id,comment, rate.toInt(), newState);
                                                                        },
                                                                     child: Text(
                                                                       "Send",
                                                                       style: TextStyle(color:Colors.black87,fontSize:18),)
-                                                                )
-                                                            )
+                                                                ),
+                                                            ),
                                                           ],
-                                                        ) //this Column
-                                        ) //this container
+                                                        ),//this Column
+                                        ), //this container
                                          ]
                                               );
                                           }
@@ -320,13 +281,15 @@ class _DetailsPageState extends State<Details>{
                                               )
                                   ):Container(),
                                 ]
-                            )
-                        )
+                            ),
+                        ),
                     );}
                 else {
                   return Center(child: CircularProgressIndicator());
                 }}
-                ));
+                ),
+    ),
+         );
   }}
 
 

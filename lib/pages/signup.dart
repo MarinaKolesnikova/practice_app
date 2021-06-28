@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
 import 'package:pract_app/services/Api_user.dart';
 import 'package:pract_app/pages/userPage/profile.dart';
@@ -16,11 +17,12 @@ Future<ApiUserResult> Registation(String username, String password ) async{
   });
 
   if(response.statusCode==201){
-
     final String responseString = response.body;
+    print('Success signup');
     return apiUserResultFromJson(responseString);
   }
   else{
+    print('Fail signup');
     return ApiUserResult(success: false, token:'-1' );
   }
 }
@@ -48,16 +50,30 @@ class _SignUpPageState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //size of screen
+    final _isKeyboard=MediaQuery.of(context).viewInsets.bottom!=0;// keyboard visibility check\
     return
       Scaffold(
-          body:Background(
+        appBar: AppBar(
+            elevation: 0,
+            brightness: Brightness.dark,
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            leading:IconButton(icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+            Navigator.pop(context);
+            }
+        ),
+          backgroundColor: Colors.black.withOpacity(0.9),
+        ),
+
+          body:Unfocus(
+            child: Background(
              child: Align(
                child:Column(
-
                    mainAxisAlignment:MainAxisAlignment.center,
                    children: <Widget>[
                      _isLoading? Center(child: CircularProgressIndicator()):
-                     Row(
+                     !_isKeyboard?Row(
                      children: <Widget>[
                       Container(
                          padding:EdgeInsets.fromLTRB(50.0, 0.0, 0.0, 10.0),
@@ -72,7 +88,8 @@ class _SignUpPageState extends State<SignUp> {
                          "UP",
                          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Arial',fontSize:80,color:Colors.greenAccent),
                      )),
-               ]),
+               ]):
+                     Row(),
                     Container (
                         width: size.width-180,
                         margin: EdgeInsets.only(top:20.0),
@@ -180,6 +197,7 @@ class _SignUpPageState extends State<SignUp> {
                   ),]
                ),
              )),
+          ),
       );
   }
 }

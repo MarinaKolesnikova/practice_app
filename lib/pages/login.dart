@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
 import 'package:pract_app/services/Api_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,14 +52,28 @@ class _LogInPageState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final _isKeyboard=MediaQuery.of(context).viewInsets.bottom!=0; // keyboard visibility check\
     return
         Scaffold(
-          body:Background(
+            appBar: AppBar(
+              elevation: 0,
+              brightness: Brightness.dark,
+              centerTitle: true,
+              automaticallyImplyLeading: true,
+              leading:IconButton(icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }
+              ),
+              backgroundColor: Colors.black.withOpacity(0.9),
+            ),
+          body:new Unfocus(
+            child: Background(
               child:Column(
               mainAxisAlignment:MainAxisAlignment.center,
                 children: <Widget>[
                   _isLoading? Center(child: CircularProgressIndicator()):
-                  Row(
+                  !_isKeyboard?Row(
                       children: <Widget>[
                         Container(
                             alignment: Alignment.center,
@@ -73,7 +88,7 @@ class _LogInPageState extends State<LogIn> {
                                 "IN",
                                  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Arial',fontSize:80,color:Colors.greenAccent),
                             )),
-                      ]),
+                      ]):Row(),
                 Container (
                     width: size.width-180,
                     margin: EdgeInsets.only(top:20.0),
@@ -157,7 +172,8 @@ class _LogInPageState extends State<LogIn> {
                 ),
               ]
               )
-         )
+         ),
+          ),
         );
   }
 }
