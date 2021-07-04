@@ -1,22 +1,23 @@
 import 'dart:convert';
-import 'package:pract_app/services/database_provider.dart';
+import 'package:pract_app/services/Provider/database_provider.dart';
 
 ApiProduct apiProductFromJson(String str) => ApiProduct.fromJson(json.decode(str));
 
 String apiProductToJson(ApiProduct data) => json.encode(data.toJson());
 
 class ApiProduct {
+
+  int id;
+  String img;
+  String text;
+  String title;
+
   ApiProduct({
     required this.id,
     required this.img,
     required this.text,
     required this.title,
   });
-
-  int id;
-  String img;
-  String text;
-  String title;
 
   factory ApiProduct.fromJson(Map<String, dynamic> json) => ApiProduct(
     id: json["id"],

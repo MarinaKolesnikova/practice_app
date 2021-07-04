@@ -4,12 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/userPage/Functions/profileFunctions.dart';
-import 'package:pract_app/services/User_data.dart';
+import 'package:pract_app/services/Models/User_data.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget{
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _surnameController = TextEditingController();
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -17,11 +15,18 @@ class Profile extends StatefulWidget{
 class _ProfilePageState extends State<Profile>{
   ImagePicker _imagePicker = ImagePicker();
   String photoPath="";
-
+  late TextEditingController _nameController ;
+  late TextEditingController _surnameController ;
+  @override
+  void initState(){
+    _nameController = TextEditingController();
+    _surnameController = TextEditingController();
+    super.initState();
+  }
   @override
   void dispose() {
-    widget._nameController.text='';
-    widget._surnameController.text='';
+    _nameController.dispose();
+    _surnameController.dispose();
     super.dispose();
   }
 
@@ -41,10 +46,10 @@ class _ProfilePageState extends State<Profile>{
                     UserData? usData=snapshot.data;
                     if(photoPath.isEmpty)
                       photoPath=usData!.photoPath;
-                    if(widget._nameController.text.isEmpty)
-                      widget._nameController.text=usData!.name;
-                    if(widget._surnameController.text.isEmpty)
-                      widget._surnameController.text=usData!.surname;
+                    if(_nameController.text.isEmpty)
+                      _nameController.text=usData!.name;
+                    if(_surnameController.text.isEmpty)
+                      _surnameController.text=usData!.surname;
                     return
                       Container (
                           margin: EdgeInsets.symmetric(horizontal: 15, vertical: size.height/20),
@@ -117,7 +122,7 @@ class _ProfilePageState extends State<Profile>{
                                   SizedBox(
                                       width:size.width*0.9,
                                       child: TextField(
-                                        controller: widget._nameController,
+                                        controller: _nameController,
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled:true,
@@ -133,7 +138,7 @@ class _ProfilePageState extends State<Profile>{
                                   SizedBox(
                                       width:size.width*0.9,
                                       child: TextField(
-                                        controller: widget._surnameController,
+                                        controller: _surnameController,
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled:true,
@@ -152,8 +157,8 @@ class _ProfilePageState extends State<Profile>{
                                           style: ButtonStyle(
                                             backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent),),
                                           onPressed: () async{
-                                            final String name =widget._nameController.text;
-                                            final String surname =widget._surnameController.text;
+                                            final String name =_nameController.text;
+                                            final String surname =_surnameController.text;
                                             setProfileData(photoPath, name, surname);
                                             setState(() {
                                               photoPath=photoPath;

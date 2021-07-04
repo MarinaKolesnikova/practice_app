@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:pract_app/services/Api_vote.dart';
+import 'package:pract_app/services/Models/Api_vote.dart';
 
 class VoteItem extends StatefulWidget{
   @override

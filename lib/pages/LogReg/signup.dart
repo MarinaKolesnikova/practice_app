@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
-import 'package:pract_app/services/Api_user.dart';
+import 'package:pract_app/services/Models/Api_user.dart';
 import 'package:pract_app/pages/userPage/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -26,11 +26,7 @@ Future<ApiUserResult> Registation(String username, String password ) async{
     return ApiUserResult(success: false, token:'-1' );
   }
 }
-//global variables
-final TextEditingController _nameController = TextEditingController();
-final TextEditingController _passController = TextEditingController();
-final TextEditingController _passConfirmController = TextEditingController();
-bool _isLoading=false;//for circleBar
+
 
 class SignUp extends StatefulWidget
 {
@@ -40,6 +36,20 @@ class SignUp extends StatefulWidget
 }
 
 class _SignUpPageState extends State<SignUp> {
+
+  late final TextEditingController _nameController ;
+  late final TextEditingController _passController ;
+  late final TextEditingController _passConfirmController;
+  bool _isLoading=false;//for circleBar
+
+  @override
+  void initState(){
+    _nameController = TextEditingController();
+    _passController = TextEditingController();
+    _passConfirmController = TextEditingController();
+    super.initState();
+  }
+
   @override
   void dispose() {
     _nameController.text='';

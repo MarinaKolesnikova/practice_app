@@ -4,7 +4,10 @@ class UserData {
   final String photoPath;
 
   UserData(
-      {required this.name, required this.surname, required this.photoPath});
+      {
+        required this.name,
+        required this.surname,
+        required this.photoPath});
 }
 
 

@@ -10,9 +10,9 @@ import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/detailPage/voteItem.dart';
-import 'package:pract_app/services/Api_product.dart';
-import 'package:pract_app/services/Api_vote.dart';
-import 'package:pract_app/services/database_provider.dart';
+import 'package:pract_app/services/Models/Api_product.dart';
+import 'package:pract_app/services/Models/Api_vote.dart';
+import 'package:pract_app/services/Provider/database_provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../auxiliary/Functions/hasTokenFunction.dart';
 

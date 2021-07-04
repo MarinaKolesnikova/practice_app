@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
-import 'package:pract_app/pages/login.dart';
-import 'package:pract_app/pages/signup.dart';
+import 'package:pract_app/pages/LogReg/login.dart';
+import 'package:pract_app/pages/LogReg/signup.dart';
 
 
 class FirstPage extends StatelessWidget

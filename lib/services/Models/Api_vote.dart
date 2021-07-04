@@ -4,6 +4,13 @@ ApiVote apiVoteFromJson(String str) => ApiVote.fromJson(json.decode(str));
 String apiVoteToJson(ApiVote data) => json.encode(data.toJson());
 
 class ApiVote {
+  int id;
+  int product;
+  CreatedBy createdBy;
+  int rate;
+  String text;
+  DateTime created_at;
+
   ApiVote({
     required this.id,
     required this.product,
@@ -12,13 +19,6 @@ class ApiVote {
     required this.text,
     required this.created_at,
   });
-
-  int id;
-  int product;
-  CreatedBy createdBy;
-  int rate;
-  String text;
-  DateTime created_at;
 
   factory ApiVote.fromJson(Map<String, dynamic> json) => ApiVote(
     id: json["id"],
@@ -40,6 +40,13 @@ class ApiVote {
 }
 
 class CreatedBy {
+
+  int id;
+  String username;
+  String first_name;
+  String last_name;
+  String email;
+
   CreatedBy({
     required this.id,
     required this.username,
@@ -47,12 +54,6 @@ class CreatedBy {
     required this.last_name,
     required this.email
   });
-
-  int id;
-  String username;
-  String first_name;
-  String last_name;
-  String email;
 
   factory CreatedBy.fromJson(Map<String, dynamic> json) {
     return CreatedBy(

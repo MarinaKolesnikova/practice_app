@@ -1,4 +1,4 @@
-import 'package:pract_app/services/Api_product.dart';
+import 'package:pract_app/services/Models/Api_product.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';

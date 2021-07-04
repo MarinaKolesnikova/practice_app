@@ -1,13 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
-import 'package:pract_app/services/database_provider.dart';
+import 'package:pract_app/pages/catalog/ProductItems/iconButtonForProductList.dart';
+import 'package:pract_app/services/Provider/database_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:pract_app/pages/detailPage/details.dart';
-import 'package:pract_app/services/Api_product.dart';
-import 'package:dio/dio.dart';
+import 'package:pract_app/services/Models/Api_product.dart';
 
 class productItem extends StatefulWidget{
   @override
@@ -22,12 +18,21 @@ class productItem extends StatefulWidget{
 }
 
 class _ProductItemState extends State<productItem>{
+
+  late bool isAut;
+  late ApiProduct content;
+  late bool connection;
+
+  @override
+  void initState() {
+    isAut = widget.isAut;
+    content= widget.content;
+    connection = widget.connection;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final bool isAut = widget.isAut;
-    final ApiProduct content= widget.content;
-    final bool connection = widget.connection;
-
   return
     FutureBuilder(
         future:DatabaseProvider.db.isExist(content.id),
@@ -63,8 +68,8 @@ class _ProductItemState extends State<productItem>{
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.7),
                                     blurRadius: 8.0,
-                                    spreadRadius: 5.5,
-                                    offset: Offset(10.1, 18.5)
+                                    spreadRadius: 0.5,
+                                    offset: Offset(0, 0)
                                 ),
                               ],
                             ),
@@ -90,62 +95,12 @@ class _ProductItemState extends State<productItem>{
                                       color: Colors.black87,
                                       border: Border.all(),
                                       shape: BoxShape.circle,),
-                                        child:
-                                        savedProduct.id==0? IconButton(
-                                            icon: Icon(Icons.save_alt_rounded, color:Colors.white),
-                                            onPressed: ()async {
-                                              if(connection){
-                                              try {
-                                                var status = await Permission.storage.status;
-                                                print(status);
-
-                                                if (await Permission.storage.request().isGranted) {
-                                                  var response;
-                                                  response= await Dio().get(
-                                                      "http://smktesting.herokuapp.com/static/"+content.img,
-                                                      options: Options(responseType: ResponseType.bytes));
-                                                  final result = await ImageGallerySaver.saveImage(
-                                                      Uint8List.fromList(response.data),
-                                                      quality: 100,
-                                                      name: content.img);
-                                                  print(result);
-                                                  print(result['filePath'].toString().replaceFirst('file://',''));
-                                                  if(result['isSuccess']==true){
-                                                    ApiProduct product = new ApiProduct(
-                                                        id: content.id,
-                                                        title: content.title,
-                                                        text: content.text,
-                                                        img: result['filePath'].toString().replaceFirst('file://','') );
-                                                    DatabaseProvider.db.insert(product);
-                                                  }
-                                                  setState(() {
-                                                  });
-                                                }
-                                                else{
-                                                  print('permission denied');
-                                                }
-                                              }
-                                              catch (E) {
-                                                print(E);
-                                                returnToast("Error!","CENTER");}
-                                              }
-                                            }
-                                        )
-                                        : IconButton(
-                                            icon: Icon(Icons.delete_outline, color:Colors.white),
-                                            onPressed: ()async{
-                                              try {
-                                                DatabaseProvider.db.delete(savedProduct.id);
-                                                File img = await File(savedProduct.img);
-                                                img.deleteSync(recursive: false);
-                                                setState(() {
-                                                  widget.parentAction();
-                                                });
-                                               }
-                                              catch(E){
-                                                print (E.toString());
-                                              }}
-                                        )
+                                        child: iconButtonPL(
+                                            connection: connection,
+                                            content: content,
+                                            savedProduct: savedProduct,
+                                            productListAction: widget.parentAction
+                                        ),
                                     ),
                                     )]
                            ),
@@ -160,6 +115,14 @@ class _ProductItemState extends State<productItem>{
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(16),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.7),
+                                            blurRadius: 8.0,
+                                            spreadRadius: 0.5,
+                                            offset: Offset(0, 0)
+                                        ),
+                                      ],
                                     ),
                                       child: Text(
                                         content.title,

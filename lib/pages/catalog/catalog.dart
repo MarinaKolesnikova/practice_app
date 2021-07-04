@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
 import 'package:pract_app/pages/auxiliary/Functions/hasTokenFunction.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
-import 'package:pract_app/pages/catalog/productList.dart';
+import 'package:pract_app/pages/catalog/ProductList/productList.dart';
 
 class Catalog extends StatefulWidget{
   @override

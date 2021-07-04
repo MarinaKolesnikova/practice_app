@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
-import 'package:pract_app/services/Api_user.dart';
+import 'package:pract_app/services/Models/Api_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -38,15 +38,23 @@ Future<ApiUserResult> Login(String username, String password ) async{
   }
 }
 
-final TextEditingController _nameController = TextEditingController();
-final TextEditingController _passController = TextEditingController();
-bool _isLoading=false;
-
 class _LogInPageState extends State<LogIn> {
+
+  late final TextEditingController _nameController;
+  late final TextEditingController _passController;
+  bool _isLoading=false;
+
+  @override
+  void initState(){
+    _nameController = TextEditingController();
+    _passController = TextEditingController();
+    super.initState();
+  }
+
   @override
   void dispose() {
-    _nameController.text='';
-    _passController.text='';
+    _nameController.dispose();
+    _passController.dispose();
     super.dispose();
   }
   @override
