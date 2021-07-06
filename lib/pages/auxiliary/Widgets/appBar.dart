@@ -23,13 +23,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     actions: isAuth==false?<Widget>[
       IconButton(icon: Icon(Icons.refresh_rounded),//refresh data
         onPressed: (){
-        //  if (isMounted)
           callBack();
         },
       )]: <Widget>[
       IconButton(icon: Icon(Icons.refresh_rounded),//refresh data
           onPressed: (){
-            //if (isMounted)
             callBack();
           }
       ),
