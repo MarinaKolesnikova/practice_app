@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/textFieldWidget.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/userPage/Functions/profileFunctions.dart';
 import 'package:pract_app/services/Models/User_data.dart';
@@ -119,34 +120,20 @@ class _ProfilePageState extends State<Profile>{
                               Container(
                                   margin: EdgeInsets.only(bottom: 10),
                                   child:
-                                  SizedBox(
-                                      width:size.width*0.9,
-                                      child: TextField(
-                                        controller: _nameController,
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.white,
-                                            filled:true,
-                                            border: OutlineInputBorder(),
-                                            labelText: 'Name',
-                                          ),
-                                      ),
-                                  ),
+                                  TextFieldWidget(
+                                  controller: _nameController,
+                                  labelText: 'Name',
+                                  obscureText:false
+                                   )
                               ),
                               Container(
                                   margin: EdgeInsets.only(bottom: 10),
                                   child:
-                                  SizedBox(
-                                      width:size.width*0.9,
-                                      child: TextField(
-                                        controller: _surnameController,
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.white,
-                                            filled:true,
-                                            border: OutlineInputBorder(),
-                                            labelText: 'Surname',
-                                          ),
-                                      ),
-                                  ),
+                                  TextFieldWidget(
+                                      controller: _surnameController,
+                                      labelText: 'Surname',
+                                      obscureText:false
+                                  )
                               ),
                               Container(
                                   alignment: Alignment.bottomCenter,

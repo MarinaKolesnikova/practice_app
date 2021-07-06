@@ -19,7 +19,7 @@ class DatabaseProvider{
   Future<Database> get database async {
     print("Database getter called");
     if(_isInitialized){
-      print(_isInitialized);
+     // print(_isInitialized);
       return _database;
     }
     _database = await createDatabase();

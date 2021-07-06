@@ -4,6 +4,7 @@ import 'package:pract_app/background/background.dart';
 import 'package:pract_app/pages/auxiliary/Functions/hasTokenFunction.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
 import 'package:pract_app/pages/catalog/ProductList/productList.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/appBar.dart';
 
 class Catalog extends StatefulWidget{
   @override
@@ -11,6 +12,12 @@ class Catalog extends StatefulWidget{
 }
 
 class _CatalogPageState extends State<Catalog> {
+
+  void newState(){
+    if(mounted)
+      setState(() {
+      });}
+
   @override
   void initState() {
     super.initState();
@@ -28,34 +35,14 @@ class _CatalogPageState extends State<Catalog> {
           bool? isAuth=snapshot.data;
           return Scaffold(
             key:_scaffoldKey,
-            appBar: AppBar(
-              elevation: 0,
-              brightness: Brightness.dark,
-              centerTitle: true,
-              automaticallyImplyLeading: isAuth==false?true:false,
-              actions: isAuth==false?<Widget>[
-                IconButton(onPressed: (){
-                  setState(() {});
-                  },
-                    icon: Icon(Icons.refresh_rounded)
-                ),]
-                  :
-              <Widget>[
-                IconButton(onPressed: (){ //refresh data
-                  setState(() {});
-                  },
-                    icon: Icon(Icons.refresh_rounded)),
-                IconButton(icon: Icon(Icons.menu),
-                  onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
-                ),
-              ],
-              leading:isAuth==false?IconButton(icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                if(Navigator.canPop(context)){
-                  Navigator.pop(context);
-                }
-              }):Container(),
-              backgroundColor: Colors.black.withOpacity(0.9),),
+            appBar:
+            AppBarWidget(
+              isAuth:isAuth==true? true:false,
+              callBack: newState,
+              scaffoldKey: _scaffoldKey,
+              backButton: false,
+            ),
+
             endDrawer:Drawer(
               child: MenuBar(),
             ),

@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
+import 'package:pract_app/pages/LogReg/Functions/loginFunction.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/textFieldWidget.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
 import 'package:pract_app/services/Models/Api_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
+
 
 class LogIn extends StatefulWidget
 {
@@ -15,28 +17,7 @@ class LogIn extends StatefulWidget
   _LogInPageState createState() => _LogInPageState();
 }
 
-Future<ApiUserResult> Login(String username, String password ) async{
-  final Uri apiUrl=Uri.parse("http://smktesting.herokuapp.com/api/login/");
-  final response = await http.post(apiUrl, body: {
-    'username': username,
-    'password': password
-  });
 
-  if(response.statusCode==200){
-    var JsonData;
-    final String responseString = response.body;
-    JsonData=json.decode(response.body);
-    if (JsonData['success']==true){
-      return apiUserResultFromJson(responseString);
-    }
-    else{
-      return ApiUserResult(success: false, token:'-1' );
-    }
-  }
-  else{
-    return ApiUserResult(success: false, token:'-1' );
-  }
-}
 
 class _LogInPageState extends State<LogIn> {
 
@@ -107,33 +88,24 @@ class _LogInPageState extends State<LogIn> {
                  )),
                 Container (
                  margin: EdgeInsets.only(top:20.0, bottom: 10.0),
-                 child: SizedBox(
-                     width:size.width - 50,
-                     child: TextField(
-                          controller:_nameController,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.account_circle_outlined),
-                            fillColor: Colors.white,
-                            filled:true,
-                            border: OutlineInputBorder(),
-                            labelText: 'Username',
-                 ),
-                 ))),
+                 child:
+                 TextFieldWidget(
+                 controller: _nameController,
+                 labelText: 'Username',
+                  icon:Icons.account_circle_outlined ,
+                  obscureText:false
+                 )
+                ),
                 Container (
                  margin: EdgeInsets.only(bottom: 10.0),
-                  child: SizedBox(
-                      width:size.width - 50,
-                      child: TextField(
-                        controller: _passController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock_outline_rounded),
-                          fillColor: Colors.white,
-                          filled:true,
-                          border: OutlineInputBorder(),
-                          labelText: 'Password',
-                      ),
-                   ))),
+                  child:
+                    TextFieldWidget(
+                      controller: _passController,
+                      labelText: 'Password',
+                      icon:Icons.lock_outline_rounded ,
+                      obscureText:true
+                    )
+                ),
                 Container(
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(

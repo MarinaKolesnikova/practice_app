@@ -26,6 +26,7 @@ class GridViewPL extends StatelessWidget{
             crossAxisSpacing: 10,
           ),
           itemBuilder: (context, index) => productItem(
+            key: UniqueKey(),
               content: content![index],
               isAut: isAuth,
               connection:connection,

@@ -2,18 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:condition/condition.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/pages/detailPage/Functions/commentInterface.dart';
-import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/appBar.dart';
+import 'package:pract_app/pages/detailPage/productImage.dart';
+import 'package:pract_app/pages/detailPage/ratingBar.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/detailPage/voteItem.dart';
 import 'package:pract_app/services/Models/Api_product.dart';
 import 'package:pract_app/services/Models/Api_vote.dart';
 import 'package:pract_app/services/Provider/database_provider.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../auxiliary/Functions/hasTokenFunction.dart';
 
 class Details extends StatefulWidget{
@@ -28,54 +28,53 @@ class Details extends StatefulWidget{
 }
 
 class _DetailsPageState extends State<Details>{
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  double rate=1.0;
+  late final GlobalKey<ScaffoldState> _scaffoldKey;
+  late double rate;
   Object redrawObject= Object();// key for listview update
-  final TextEditingController commentController = TextEditingController();
+  late final TextEditingController commentController ;
 
   @override
   void initState(){
+    rate=1.0;
+    commentController = TextEditingController();
+    _scaffoldKey = new GlobalKey<ScaffoldState>();
     super .initState();
   }
+
+  @override
+  void dispose(){
+    commentController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     void newState(){
+      if(mounted)
       setState(() {
         commentController.text="";
         rate=1.0;
       });}
+
+      void callBack(double rating){
+      setState(() {
+        rate=rating;
+      });
+      }
+
     final ApiProduct content = widget.content;
     final bool isAuth = widget.isAuth;
-
     final _isKeyboard=MediaQuery.of(context).viewInsets.bottom!=0; // keyboard visibility check\
     Size size = MediaQuery.of(context).size;
 
-
          return  Scaffold(
             key:_scaffoldKey,
-            appBar: AppBar(
-            centerTitle: true,
-              brightness: Brightness.dark,
-              automaticallyImplyLeading: true,
-              // choose set of icons
-              actions: isAuth==false?<Widget>[
-              IconButton(icon: Icon(Icons.refresh_rounded),//refresh data
-              onPressed: (){
-                  if (mounted) setState(() {});
-                },
-              )]: <Widget>[
-              IconButton(icon: Icon(Icons.refresh_rounded),//refresh data
-                onPressed: (){
-                  if (mounted) setState(() {});
-              }
-              ),
-              IconButton(icon: Icon(Icons.menu),
-              onPressed:
-              () => _scaffoldKey.currentState!.openEndDrawer(),
-              )],
-              leading:IconButton(icon: Icon(Icons.arrow_back_ios),
-            onPressed: () { Navigator.pop(context); },),
-            backgroundColor: Colors.black,),
+             appBar: AppBarWidget(
+               isAuth:isAuth,
+               callBack: newState,
+               scaffoldKey: _scaffoldKey,
+             ),
             endDrawer:
             Drawer(
              child:MenuBar()),
@@ -107,37 +106,11 @@ class _DetailsPageState extends State<Details>{
                                       ApiProduct? savedProduct = snapshot.data;
                                      if(!_isKeyboard){
                                        return
-                                       Container(
-                                       padding: EdgeInsets.only(top:10, left:10, right: 10),
-                                        width: size.width,
-                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        boxShadow: [
-                                          BoxShadow(
-                                        color: Colors.black.withOpacity(0.5),
-                                        blurRadius: 12.0,
-                                        spreadRadius: 0.1,
-                                        offset: Offset(2, 5)
-                                        )
-                                         ]),
-                                          child: Conditioned(
-                                            cases: [
-                                              Case(connection==true && savedProduct!.img!=content.img, builder: () =>
-                                                  Image(
-                                                image: NetworkImage('http://smktesting.herokuapp.com/static/'+content.img),
-                                                fit: BoxFit.fitWidth, )),
-                                              Case(connection==true && savedProduct!.img==content.img, builder: () =>
-                                                  Image(
-                                                    image:FileImage(File(savedProduct!.img)),
-                                                    fit: BoxFit.fitWidth, )),
-                                              Case(connection==false &&savedProduct!.id!=0, builder: () =>
-                                                  Image(
-                                                    image:FileImage(File(savedProduct!.img)),
-                                                    fit: BoxFit.fitWidth,)),
-                                            ],
-                                            defaultBuilder: () => Image(image: AssetImage("assets/images/noImage.jpg")),
-                                    ),
-                                            );
+                                         ProductImage(
+                                           connection:connection,
+                                           savedProduct:savedProduct,
+                                           content:content
+                                         );
                                           }
                                       else{return Container();}
                                     }
@@ -185,26 +158,9 @@ class _DetailsPageState extends State<Details>{
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   children: <Widget>[
-                                                    Container(
-                                                        padding: EdgeInsets.symmetric(horizontal: 20),
-                                                        margin: EdgeInsets.only(top: 10),
-                                                        child:
-                                                        RatingBar.builder(                                              //Rating
-                                                          initialRating: rate,
-                                                          minRating: 1,
-                                                          direction: Axis.horizontal,
-                                                          allowHalfRating: false,
-                                                          itemCount: 5,
-                                                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                          itemBuilder: (context, _) => Icon(
-                                                            Icons.star,
-                                                            color: Colors.black,
-                                                          ),
-                                                          onRatingUpdate: (rating) {
-                                                            setState(() {
-                                                              rate=rating;});
-                                                            },
-                                                        )
+                                                    RatingWidget(
+                                                      rate:rate,
+                                                      callBack:callBack
                                                     ),
                                                     Container(
                                                         padding: EdgeInsets.only(left: 20, right:20, top: 10),

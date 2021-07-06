@@ -4,8 +4,9 @@ import 'package:pract_app/pages/firstpage.dart';
 import 'package:pract_app/pages/userPage/profile.dart';
 
 class MenuBar extends StatelessWidget {
+
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return
       ListView(
         padding: EdgeInsets.zero,

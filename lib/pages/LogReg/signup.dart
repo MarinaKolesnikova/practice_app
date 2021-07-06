@@ -1,32 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
+import 'package:pract_app/pages/LogReg/Functions/registrationFunction.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/textFieldWidget.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
 import 'package:pract_app/services/Models/Api_user.dart';
 import 'package:pract_app/pages/userPage/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-
-
-Future<ApiUserResult> Registation(String username, String password ) async{
-  final Uri apiUrl=Uri.parse("http://smktesting.herokuapp.com/api/register/");
-  final response = await http.post(apiUrl, body: {
-    'username': username,
-    'password': password
-  });
-
-  if(response.statusCode==201){
-    final String responseString = response.body;
-    print('Success signup');
-    return apiUserResultFromJson(responseString);
-  }
-  else{
-    print('Fail signup');
-    return ApiUserResult(success: false, token:'-1' );
-  }
-}
-
 
 class SignUp extends StatefulWidget
 {
@@ -52,11 +33,12 @@ class _SignUpPageState extends State<SignUp> {
 
   @override
   void dispose() {
-    _nameController.text='';
-    _passController.text='';
-    _passConfirmController.text='';
+    _nameController.dispose();
+    _passController.dispose();
+    _passConfirmController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //size of screen
@@ -109,47 +91,33 @@ class _SignUpPageState extends State<SignUp> {
                        )),
                   Container (
                       margin: EdgeInsets.only(top:20.0, bottom: 10.0),
-                      child: SizedBox(
-                          width:size.width - 50,
-                         child:  TextField(
-                           controller:_nameController,
-                            decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled:true,
-                            prefixIcon: Icon(Icons.account_circle_outlined),
-                            border: OutlineInputBorder(),
-                            labelText: 'User name',
+                      child:
+                      TextFieldWidget(
+                          controller: _nameController,
+                          labelText: 'Username',
+                          icon:Icons.account_circle_outlined ,
+                          obscureText:false
+                      )
                   ),
-                ))),
                      Container (
                          margin: EdgeInsets.only(bottom: 10.0),
-                         child: SizedBox(
-                             width:size.width - 50,
-                             child:  TextField(
-                               controller:_passController,
-                               obscureText: true,
-                               decoration: InputDecoration(
-                                 fillColor: Colors.white,
-                                 filled:true,
-                                 border: OutlineInputBorder(),
-                                 prefixIcon: Icon(Icons.lock_outline_rounded),
-                                 labelText: 'Password',
-                               ),
-                             ))),
+                         child:
+                         TextFieldWidget(
+                             controller: _passController,
+                             labelText: 'Password',
+                             icon:Icons.lock_outline_rounded ,
+                             obscureText:true
+                         )
+                     ),
                      Container (
-                         child: SizedBox(
-                             width:size.width - 50,
-                             child:  TextField(
-                               controller: _passConfirmController,
-                               obscureText: true,
-                               decoration: InputDecoration(
-                                 fillColor: Colors.white,
-                                 filled:true,
-                                 border: OutlineInputBorder(),
-                                 prefixIcon: Icon(Icons.lock_outline_rounded),
-                                 labelText: 'Confirm password',
-                               ),
-                             ))),
+                         child:
+                         TextFieldWidget(
+                             controller: _passConfirmController,
+                             labelText: 'Confirm password',
+                             icon:Icons.lock_outline_rounded ,
+                             obscureText:true
+                         )
+                         ),
                   Container(
                       margin:  EdgeInsets.only(top:10.0 ),
                       alignment: Alignment.bottomCenter,
@@ -206,7 +174,8 @@ class _SignUpPageState extends State<SignUp> {
                       ),
                   ),]
                ),
-             )),
+             ),
+            ),
           ),
       );
   }
