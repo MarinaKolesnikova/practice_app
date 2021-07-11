@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:pract_app/services/Models/Api_product.dart';
+import 'package:pract_app/services/Models/api_product.dart';
 import 'package:http/http.dart' as http;
 
 Future<List <ApiProduct>> GetProducts() async{

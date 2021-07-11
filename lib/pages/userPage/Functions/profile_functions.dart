@@ -1,6 +1,6 @@
 
-import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
-import 'package:pract_app/services/Models/User_data.dart';
+import 'package:pract_app/pages/auxiliary/Functions/toast_message.dart';
+import 'package:pract_app/services/Models/user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void setProfileData(String photoPath, String name, String surname) async{

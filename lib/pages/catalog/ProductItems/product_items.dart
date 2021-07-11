@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:pract_app/pages/catalog/ProductItems/iconButtonForProductList.dart';
+import 'package:pract_app/pages/catalog/ProductItems/icon_button_for_product_list.dart';
 import 'package:pract_app/services/Provider/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:pract_app/pages/detailPage/details.dart';
-import 'package:pract_app/services/Models/Api_product.dart';
+import 'package:pract_app/services/Models/api_product.dart';
 
 class productItem extends StatefulWidget{
   @override

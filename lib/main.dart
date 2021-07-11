@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pract_app/pages/auxiliary/Functions/hasTokenFunction.dart';
+import 'package:pract_app/pages/auxiliary/Functions/has_token_function.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
 import 'package:pract_app/pages/firstpage.dart';
 import 'package:flutter/services.dart';

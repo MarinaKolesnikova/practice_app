@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
-import 'package:pract_app/pages/auxiliary/Widgets/textFieldWidget.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/text_field_widget.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
-import 'package:pract_app/pages/userPage/Functions/profileFunctions.dart';
-import 'package:pract_app/services/Models/User_data.dart';
+import 'package:pract_app/pages/userPage/Functions/profile_functions.dart';
+import 'package:pract_app/services/Models/user_data.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget{

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:pract_app/services/Models/Api_user.dart';
+import 'package:pract_app/services/Models/api_user.dart';
 
 Future<ApiUserResult> Login(String username, String password ) async{
   final Uri apiUrl=Uri.parse("http://smktesting.herokuapp.com/api/login/");

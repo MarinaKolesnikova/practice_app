@@ -1,10 +1,10 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:pract_app/pages/catalog/Functions/getProducts.dart';
-import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
-import 'package:pract_app/pages/catalog/ProductList/gridViewForProductList.dart';
-import 'package:pract_app/pages/catalog/ProductList/productListWithoutConnection.dart';
-import 'package:pract_app/services/Models/Api_product.dart';
+import 'package:pract_app/pages/catalog/Functions/get_products.dart';
+import 'package:pract_app/pages/auxiliary/Functions/toast_message.dart';
+import 'package:pract_app/pages/catalog/ProductList/grid_view_for_product_list.dart';
+import 'package:pract_app/pages/catalog/ProductList/product_list_without_connection.dart';
+import 'package:pract_app/services/Models/api_product.dart';
 
 class ProductList extends StatefulWidget{
   final bool isAuth ;

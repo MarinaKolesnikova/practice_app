@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pract_app/pages/auxiliary/Functions/personalDataDeleting.dart';
+import 'package:pract_app/pages/auxiliary/Functions/personal_data_deleting.dart';
 import 'package:pract_app/pages/firstpage.dart';
 import 'package:pract_app/pages/userPage/profile.dart';
 

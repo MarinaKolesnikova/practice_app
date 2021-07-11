@@ -1,20 +1,17 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:condition/condition.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/pages/detailPage/Functions/commentInterface.dart';
-import 'package:pract_app/pages/auxiliary/Widgets/appBar.dart';
-import 'package:pract_app/pages/detailPage/productImage.dart';
-import 'package:pract_app/pages/detailPage/ratingBar.dart';
-import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/app_bar.dart';
+import 'package:pract_app/pages/detailPage/product_image.dart';
+import 'package:pract_app/pages/detailPage/rating_bar.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/menu_bar.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
-import 'package:pract_app/pages/detailPage/voteItem.dart';
-import 'package:pract_app/services/Models/Api_product.dart';
-import 'package:pract_app/services/Models/Api_vote.dart';
+import 'package:pract_app/pages/detailPage/vote_item.dart';
+import 'package:pract_app/services/Models/api_product.dart';
+import 'package:pract_app/services/Models/api_vote.dart';
 import 'package:pract_app/services/Provider/database_provider.dart';
-import '../auxiliary/Functions/hasTokenFunction.dart';
+import '../auxiliary/Functions/has_token_function.dart';
 
 class Details extends StatefulWidget{
   @override

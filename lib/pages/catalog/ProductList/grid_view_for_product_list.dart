@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pract_app/pages/catalog/ProductItems/productItems.dart';
-import 'package:pract_app/services/Models/Api_product.dart';
+import 'package:pract_app/pages/catalog/ProductItems/product_items.dart';
+import 'package:pract_app/services/Models/api_product.dart';
 
 class GridViewPL extends StatelessWidget{
   final bool isAuth;

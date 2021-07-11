@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pract_app/pages/auxiliary/Functions/toastMessage.dart';
-import 'package:pract_app/services/Models/Api_product.dart';
+import 'package:pract_app/pages/auxiliary/Functions/toast_message.dart';
+import 'package:pract_app/services/Models/api_product.dart';
 import 'dart:typed_data';
 import 'package:pract_app/services/Provider/database_provider.dart';
 

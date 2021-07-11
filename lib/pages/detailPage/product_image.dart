@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:condition/condition.dart';
+import 'package:conditioned/conditioned.dart';
+import 'package:conditioned/conditioned.dart';
 import 'package:flutter/material.dart';
-import 'package:pract_app/services/Models/Api_product.dart';
+import 'package:pract_app/services/Models/api_product.dart';
 
 class ProductImage extends StatelessWidget {
   final bool connection;

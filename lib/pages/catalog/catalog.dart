@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pract_app/background/background.dart';
-import 'package:pract_app/pages/auxiliary/Functions/hasTokenFunction.dart';
-import 'package:pract_app/pages/auxiliary/Widgets/menuBar.dart';
-import 'package:pract_app/pages/catalog/ProductList/productList.dart';
-import 'package:pract_app/pages/auxiliary/Widgets/appBar.dart';
+import 'package:pract_app/pages/auxiliary/Functions/has_token_function.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/menu_bar.dart';
+import 'package:pract_app/pages/catalog/ProductList/product_list.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/app_bar.dart';
 
 class Catalog extends StatefulWidget{
   @override

@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pract_app/background/background.dart';
 import 'package:pract_app/pages/LogReg/Functions/loginFunction.dart';
-import 'package:pract_app/pages/auxiliary/Widgets/textFieldWidget.dart';
+import 'package:pract_app/pages/auxiliary/Widgets/text_field_widget.dart';
 import 'package:pract_app/pages/auxiliary/Widgets/unfocus.dart';
 import 'package:pract_app/pages/catalog/catalog.dart';
-import 'package:pract_app/services/Models/Api_user.dart';
+import 'package:pract_app/services/Models/api_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
