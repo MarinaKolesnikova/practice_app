@@ -11,7 +11,8 @@ class ProductList extends StatefulWidget{
 
   @override
   final String title = "product list";
-  const ProductList({ Key? key, required this.isAuth}):super(key: key);
+  final Function() newCatalogState;
+  const ProductList({ Key? key, required this.isAuth, required this.newCatalogState}):super(key: key);
   _ProductListState createState() => _ProductListState();
 }
 
@@ -24,10 +25,7 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-  void callBack(){
-    setState(() {
-    });
-  }
+
   bool _isAuth = widget.isAuth;
     List products;
     Size size = MediaQuery.of(context).size;
@@ -59,10 +57,10 @@ class _ProductListState extends State<ProductList> {
                    Container (
                      width: size.width,
                             child:GridViewPL(
-                            content: apPr,
-                            isAuth: _isAuth,
-                            connection:true,
-                             callback: callBack
+                                content: apPr,
+                                isAuth: _isAuth,
+                                connection:true,
+                                newCatalogState: widget.newCatalogState
                             ),
 
                    );

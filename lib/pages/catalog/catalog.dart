@@ -46,7 +46,7 @@ class _CatalogPageState extends State<Catalog> {
             endDrawer:Drawer(
               child: MenuBar(),
             ),
-            body: Background (child: ProductList(isAuth: isAuth==true? true:false,)
+            body: Background (child: ProductList(isAuth: isAuth==true? true:false, newCatalogState: newState,)
             ),
           );
         }

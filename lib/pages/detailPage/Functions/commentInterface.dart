@@ -23,7 +23,6 @@ void createComment(int id, String comment, int rating, Function() newState) asyn
   if(response.statusCode==200){
     var JsonData=json.decode(response.body);
     if (JsonData['success']==true){
-      print('sent');
       SystemChannels.textInput.invokeMethod('TextInput.hide'); //for keyboard dismissing
       newState();
     }

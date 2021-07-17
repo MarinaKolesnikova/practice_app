@@ -21,6 +21,7 @@ class _ProductListState extends State<ProductListWithoutConnection> {
   @override
   Widget build(BuildContext context) {
     void callBack(){
+      if(mounted)
       setState(() {
       });
     }
@@ -40,7 +41,7 @@ class _ProductListState extends State<ProductListWithoutConnection> {
                 content: apPr,
                 isAuth: _isAuth,
                 connection:false,
-                callback: callBack
+                    newCatalogState: callBack
                 ),
               );
           }

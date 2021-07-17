@@ -6,9 +6,9 @@ class GridViewPL extends StatelessWidget{
   final bool isAuth;
   final List<ApiProduct>? content;
   final bool connection;
-  final void Function() callback;
+  final void Function() newCatalogState;
   const GridViewPL(
-      {Key? key, required this.content, required this.isAuth, required this.connection, required this.callback}
+      {Key? key, required this.content, required this.isAuth, required this.connection, required this.newCatalogState}
       ):super(key: key);
 
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class GridViewPL extends StatelessWidget{
               content: content![index],
               isAut: isAuth,
               connection:connection,
-              parentAction: callback
+              newCatalogState: newCatalogState
           ),
         ),
       );

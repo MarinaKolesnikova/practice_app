@@ -10,9 +10,9 @@ class productItem extends StatefulWidget{
   final bool isAut;
   final ApiProduct content;
   final bool connection;
-  final void Function() parentAction;
+  final void Function() newCatalogState;
   const productItem(
-      {Key? key, required this.content, required this.isAut, required this.connection, required this.parentAction}
+      {Key? key, required this.content, required this.isAut, required this.connection, required this.newCatalogState}
       ):super(key: key);
   _ProductItemState createState() => _ProductItemState();
 }
@@ -22,6 +22,14 @@ class _ProductItemState extends State<productItem>{
   late bool isAut;
   late ApiProduct content;
   late bool connection;
+
+  void itemRefresh(){
+    if(mounted){
+      setState(() {
+
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -43,16 +51,15 @@ class _ProductItemState extends State<productItem>{
               if(savedProduct!.id==0){
               fromSavedData = false;}
             else {fromSavedData = true;}
-            print(fromSavedData.toString() + 'here');
             return GestureDetector(
                 onTap:(){ Navigator.push(context, MaterialPageRoute(
                     builder: (context) => Details(
                       content:content,
                       isAuth: isAut==true?true: false,
-                      refresh:  widget.parentAction,
+                      refresh:  widget.newCatalogState,
                     )),
                 );
-                print(connection.toString()+' con');},
+                },
                 child:
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +106,8 @@ class _ProductItemState extends State<productItem>{
                                             connection: connection,
                                             content: content,
                                             savedProduct: savedProduct,
-                                            productListAction: widget.parentAction
+                                            itemNewState: itemRefresh,
+                                          catalogNewState: widget.newCatalogState,
                                         ),
                                     ),
                                     )]
